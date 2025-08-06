@@ -1,4 +1,12 @@
-<iframe width="0" height="0" src="https://www.youtube.com/embed/KvknOXGPzCQ//?&;amp;;autoplay=1&;loop=1&" title="music" frameborder="0" allow="autoplay;" loading="lazy"></iframe>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CD Player</title>
+</head>
+<body>
+
 <div class="window" style="width:320px">
     <div class="title-bar">
         <div class="title-bar-text">
@@ -6,9 +14,9 @@
             CD Player
         </div>
         <div class="title-bar-controls">
-            <p id="butt" class="minimize"></p>
-            <p id="butt" class="maximize"></p>
-            <p id="butt" class="close"></p>
+            <p class="control-butt minimize"></p>
+            <p class="control-butt maximize"></p>
+            <p class="control-butt close"></p>
         </div>
     </div>
     <div class="window-body">
@@ -20,14 +28,14 @@
         </p>
         <p id="text2">[00] 00:00</p>
         <div class="buttontos">
-            <p id="butt">▶ </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-inline:0px">❚❚ </p>
-            <p id="butt" style="min-width:20px;max-width:20px"><span>◼</span> </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-top:5px">❚◄◄ </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-top:5px;margin-left:0px">◄◄ </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-top:5px;margin-left:0px">►► </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-top:5px;margin-left:0px">►►❚ </p>
-            <p id="butt" style="min-width:20px;max-width:20px;margin-top:5px;margin-left:0px"><span>❚ ►</span></p>
+            <p id="playButton" class="control-butt">▶</p>
+            <p id="pauseButton" class="control-butt">❚❚</p>
+            <p id="stopButton" class="control-butt"><span>◼</span></p>
+            <p id="previousTrackButton" class="control-butt">❚◄◄</p>
+            <p id="rewindButton" class="control-butt">◄◄</p>
+            <p id="forwardButton" class="control-butt">►►</p>
+            <p id="nextTrackButton" class="control-butt">►►❚</p>
+            <p id="ejectButton" class="control-butt"><span>❚ ►</span></p>
         </div>
         <div class="ahhh">
             <p id="label"><u>A</u>rtist:</p>
@@ -42,39 +50,57 @@
     </div>
 </div>
 
-
 <style>
     :root {
-        --artist: "Deftones";
-        --title: "Be Quiet And Drive (Far Away)";
-        --albumcover: url(https://m.media-amazon.com/images/I/81BbQMTakEL._UF1000,1000_QL80_.jpg);
+        /* Estas variáveis servem como um 'fallback' visual antes do JS carregar. */
+        /* A fonte da verdade para as músicas está na lista do JavaScript. */
+        --artist: "Devon Hendryx";
+        --title: "Missing Image File";
+        --albumcover: url(https://m.media-amazon.com/images/I/71NmRa8Sp7L._AC_SL1500_.jpg);
     }
     
+    /* Estilos Gerais da Janela */
     .status-bar, .title-bar, .title-bar-controls {
-        display: flex
+        display: flex;
     }
     
-    .window, p#butt {
+    .window {
         background: silver;
-        margin: auto
+        margin: auto;
+        text-shadow: none;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
+        padding: 3px;
+        color: #000!important;
+        font-family: "Pixelated MS Sans Serif"!important;
     }
     
+    .window * {
+        -webkit-font-smoothing: none;
+        font-family: "Pixelated MS Sans Serif", Arial;
+        font-size: 11px;
+        text-shadow: inherit;
+    }
+
+    .window img {
+        filter: none!important;
+    }
+
     p#text, p#text2 {
         box-shadow: inset -1px -1px #fff, inset 1px 1px grey, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
         box-sizing: border-box;
-        margin-block: 3px
+        margin-block: 3px;
     }
-    
-    p#butt, p#text, p#text2 {
-        box-sizing: border-box
+
+    .control-butt, p#text, p#text2 {
+        box-sizing: border-box;
     }
     
     p#label, p#text, p#text2 {
-        margin-block: 3px
+        margin-block: 3px;
     }
     
-    .status-bar, .title-bar-text, .toptoptop, p#butt, p#label, p#text2 {
-        user-select: none
+    .status-bar, .title-bar-text, .toptoptop, .control-butt, p#label, p#text2 {
+        user-select: none;
     }
     
     @font-face {
@@ -82,7 +108,7 @@
         font-style: normal;
         font-weight: 400;
         src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif.woff) format("woff");
-        src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif.woff2) format("woff2")
+        src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif.woff2) format("woff2");
     }
     
     @font-face {
@@ -90,30 +116,15 @@
         font-style: normal;
         font-weight: 700;
         src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif_bold.woff) format("woff");
-        src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif_bold.woff2) format("woff2")
+        src: url(https://unpkg.com/98.css@0.1.20/dist/ms_sans_serif_bold.woff2) format("woff2");
     }
-    
-    .window {
-        text-shadow: none;
-        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
-        padding: 3px
-    }
-    
-    .window img {
-        filter: none!important
-    }
-    
-    .window * {
-        -webkit-font-smoothing: none;
-        font-family: "Pixelated MS Sans Serif", Arial;
-        font-size: 11px;
-        text-shadow: inherit
-    }
-    
+
+    /* Barra de Título */
     .title-bar {
         align-items: center;
         background: linear-gradient(90deg, navy, #1084d0);
-        justify-content: space-between
+        justify-content: space-between;
+        padding: 2px;
     }
     
     .title-bar-text {
@@ -121,90 +132,17 @@
         font-weight: 700;
         letter-spacing: 0;
         margin-right: 24px;
-        line-height: 15px
+        line-height: 15px;
+    }
+
+    .title-bar-text img {
+        vertical-align: bottom;
+        margin-inline: 2px;
     }
     
-    .title-bar-controls p#butt {
-        display: block;
-        min-height: 14px;
-        min-width: 16px;
-        padding: 0
-    }
-    
-    .title-bar-controls p#butt:active {
-        padding: 0
-    }
-    
-    .title-bar-controls p#butt:focus {
-        outline: 0
-    }
-    
-    .title-bar-controls p#butt.minimize {
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='6' height='2' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M0 0h6v2H0z'/%3E%3C/svg%3E");
-        background-position: bottom 3px left 4px;
-        background-repeat: no-repeat
-    }
-    
-    .title-bar-controls p#butt.maximize {
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='9' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9 0H0v9h9V0zM8 2H1v6h7V2z' fill='%23000'/%3E%3C/svg%3E");
-        background-position: top 2px left 3px;
-        background-repeat: no-repeat
-    }
-    
-    .title-bar-controls p#butt.close {
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='8' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h2v1h1v1h2V1h1V0h2v1H7v1H6v1H5v1h1v1h1v1h1v1H6V6H5V5H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0V0z' fill='%23000'/%3E%3C/svg%3E");
-        background-position: top 3px left 4px;
-        background-repeat: no-repeat;
-        margin-left: 2px
-    }
-    
-    .status-bar {
-        gap: 1px;
-        margin: 0 1px
-    }
-    
-    p#butt {
-        white-space: nowrap;
-    }
-    
-    .buttontos, p#butt, p#label, p#text, p#text2 {
-        display: inline-block
-    }
-    
-    .status-bar-field {
-        box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px grey;
-        flex-grow: 1;
-        margin: 0;
-        padding: 2px 3px
-    }
-    
+    /* Corpo da Janela */
     .window-body {
-        margin: 8px
-    }
-    
-    p#butt {
-        border: none;
-        border-radius: 0;
-        min-height: 23px;
-        min-width: 75px;
-        padding: 6px 12px 0;
-        text-shadow: 0 0 #222;
-        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
-        color: #000
-    }
-    
-    p#butt:active {
-        box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
-        text-shadow: 1px 1px #222
-    }
-    
-    p#butt:focus {
-        outline: #000 dotted 1px;
-        outline-offset: -4px
-    }
-    
-    p#butt::-moz-focus-inner {
-        border: 0
+        margin: 8px;
     }
     
     .toptoptop {
@@ -216,46 +154,20 @@
     
     .toptoptop span {
         border: 1px solid silver;
-        padding: 2px 4px
+        padding: 2px 4px;
     }
-    
-    .toptoptop span:hover {
-        border-top: 1px solid #fff;
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid gray;
-        border-right: 1px solid gray
-    }
-    
-    .toptoptop span:focus {
-        border: 1px inset #fff
-    }
-    
-    .window {
-        color: #000!important;
-        font-family: "Pixelated MS Sans Serif"!important
-    }
-    
-    p#text:active {
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h16v17H0V0zm1 16h14V1H1v15z' fill='gray'/%3E%3Cpath fill='silver' d='M1 1h14v15H1z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 7H5v1h1v1h1v1h1v1h1v-1h1V9h1V8h1V7z' fill='%23000'/%3E%3C/svg%3E")
-    }
-    
-    p#text {
-        background-color: #fff;
-        padding: 4px;
-        width: 85%;
-        text-align: left;
-        font-size: 12px;
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='16' height='17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M15 0H0v16h1V1h14V0z' fill='%23DFDFDF'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2 1H1v14h1V2h12V1H2z' fill='%23fff'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M16 17H0v-1h15V0h1v17z' fill='%23000'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M15 1h-1v14H1v1h14V1z' fill='gray'/%3E%3Cpath fill='silver' d='M2 2h12v13H2z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11 6H4v1h1v1h1v1h1v1h1V9h1V8h1V7h1V6z' fill='%23000'/%3E%3C/svg%3E");
-        background-position: top 2px right 2px;
-        background-repeat: no-repeat
-    }
-    
-    p#text.artist:after {
-        content: var(--artist)
-    }
-    
-    p#text.title:after {
-        content: var(--title)
+
+    /* Display de tempo e imagem */
+    p#text2 {
+        position: relative;
+        display: inline-block;
+        padding: 13px 4px;
+        width: 54%;
+        font-size: 20px;
+        text-align: center;
+        color: olive;
+        background: #000;
+        z-index: 999;
     }
     
     p#text2:before {
@@ -270,87 +182,115 @@
         opacity: .5;
         background-size: cover;
         background-position: center;
-        z-index: -1
+        z-index: -1;
     }
-    
-    p#text2 {
-        position: relative;
-        padding: 13px 4px;
-        width: 54%;
-        font-size: 20px;
-        text-align: center;
-        color: olive;
-        background: #000;
-        z-index: 999
-    }
-    
-    #butt, p#label {
-        font-size: 12px
-    }
-    
-    p#label {
-        width: fit-content;
-        margin-right: 5px
-    }
-    
-    .ahhh {
-        text-align: right
-    }
-    
-    .title-bar {
-        padding: 2px
-    }
-    
-    .title-bar-text img {
-        vertical-align: bottom;
-        margin-inline: 2px
-    }
-    
+
+    /* --- ESTILOS DOS BOTÕES --- */
+
+    /* Container dos botões */
     .buttontos {
+        display: inline-block;
         width: 45%;
         height: 54px;
         vertical-align: top;
-        text-align: center
+        text-align: center;
     }
-    
-    #butt {
+
+    /* Estilo base para todos os botões de controle */
+    .control-butt {
+        display: inline-block;
+        border: none;
+        border-radius: 0;
+        background: silver;
+        min-height: 23px;
+        min-width: 20px;
+        max-width: 20px;
+        margin: 2px;
+        padding: 6px 0;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
         color: #000;
         text-shadow: 1px 1px #fff;
-        line-height: 10px
+        line-height: 10px;
+        cursor: pointer;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .control-butt:active {
+        box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey;
+        text-shadow: 1px 1px #222;
     }
     
-    #butt:not(:first-child) {
+    .control-butt:focus {
+        outline: #000 dotted 1px;
+        outline-offset: -4px;
+    }
+
+    /* Estilos específicos para cada botão */
+    #playButton {
+        min-width: 75px;
+    }
+
+    #pauseButton, #stopButton {
         text-indent: -5px;
-        font-weight: 700
+        font-weight: 700;
     }
-    
-    #butt:nth-child(3) span {
+
+    #stopButton span {
         display: block;
-        transform: translate(2px, -2px) scale(1.2)
+        transform: translate(2px, -2px) scale(1.2);
     }
     
-    #butt:not(:first-child, :nth-child(2), :nth-child(3)) {
+    #previousTrackButton, #rewindButton, #forwardButton, #nextTrackButton {
         text-indent: -8px;
         font-weight: 700;
         letter-spacing: -4px;
-        font-size: 10px
+        font-size: 10px;
     }
-    
-    #butt:nth-child(8) {
+
+    #ejectButton {
         text-indent: -8px;
         font-weight: 700;
         letter-spacing: -1.5px;
-        white-space: nowrap;
         text-shadow: none;
-        transform: translateY(1px)
+        transform: translateY(1px);
     }
     
-    #butt:nth-child(8) span {
+    #ejectButton span {
         display: block;
         transform: rotate(-90deg) translate(2px, 0) scaleY(1.4);
-        color: #000
+        color: #000;
     }
     
+    /* Artista e Título */
+    .ahhh {
+        text-align: right;
+    }
+    
+    p#label {
+        display: inline-block;
+        width: fit-content;
+        margin-right: 5px;
+        font-size: 12px;
+    }
+
+    p#text {
+        display: inline-block;
+        background-color: #fff;
+        padding: 4px;
+        width: 85%;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    p#text.artist:after {
+        content: var(--artist);
+    }
+    
+    p#text.title:after {
+        content: var(--title);
+    }
+
     .title, .artist {
         height: 23px;
         overflow: hidden;
@@ -359,4 +299,149 @@
         padding-right: 20px!important;
         vertical-align: bottom;
     }
-    </style>
+    
+    /* Barra de Status */
+    .status-bar {
+        gap: 1px;
+        margin: 0 1px;
+    }
+
+    .status-bar-field {
+        box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px grey;
+        flex-grow: 1;
+        margin: 0;
+        padding: 2px 3px;
+    }
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // IDs para os botões do player
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const stopButton = document.getElementById('stopButton');
+        const nextButton = document.getElementById('nextTrackButton');
+        const previousButton = document.getElementById('previousTrackButton');
+        
+        // IDs para as informações da faixa
+        const artistText = document.querySelector('.artist');
+        const titleText = document.querySelector('.title');
+        const timeDisplay = document.getElementById('text2');
+        const totalPlayDisplay = document.querySelector('.status-bar-field:first-child');
+        const trackTimeDisplay = document.querySelector('.status-bar-field:last-child');
+
+        // A lista de músicas no JavaScript é a "fonte da verdade".
+        // A primeira música aqui é a que será exibida e carregada inicialmente.
+        const playlist = [
+            {
+                artist: "Devon Hendryx",
+                title: "Missing Image File",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // URL de exemplo
+            },
+            {
+                artist: "Deftones",
+                title: "Be Quiet and Drive (Far Away)",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" // URL de exemplo
+            },
+            {
+                artist: "Radiohead",
+                title: "Paranoid Android",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" // URL de exemplo
+            },
+            {
+                artist: "A Perfect Circle",
+                title: "Judith",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" // URL de exemplo
+            }
+        ];
+        
+        const audio = new Audio();
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        
+        function updateDisplay() {
+            const currentTrack = playlist[currentTrackIndex];
+            
+            // Atualiza as variáveis CSS para mostrar o artista e título corretos
+            const root = document.documentElement;
+            root.style.setProperty('--artist', `"${currentTrack.artist}"`);
+            root.style.setProperty('--title', `"${currentTrack.title}"`);
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function playMusic() {
+            if (!audio.src) {
+                loadTrack(currentTrackIndex, true);
+            } else {
+                audio.play();
+                isPlaying = true;
+            }
+        }
+
+        function pauseMusic() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            }
+        }
+        
+        function stopMusic() {
+            audio.pause();
+            audio.currentTime = 0;
+            isPlaying = false;
+            timeDisplay.textContent = `[${String(currentTrackIndex + 1).padStart(2, '0')}] 00:00`;
+            trackTimeDisplay.textContent = `Track: 00:00 m:s`;
+        }
+        
+        function loadTrack(trackIndex, autoplay = false) {
+            currentTrackIndex = trackIndex;
+            audio.src = playlist[currentTrackIndex].url;
+            updateDisplay();
+            stopMusic();
+            if (autoplay) {
+                audio.play();
+                isPlaying = true;
+            }
+        }
+
+        function nextTrack() {
+            const newIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(newIndex, isPlaying || audio.paused === false);
+        }
+
+        function previousTrack() {
+            const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(newIndex, isPlaying || audio.paused === false);
+        }
+
+        playButton.addEventListener('click', playMusic);
+        pauseButton.addEventListener('click', pauseMusic);
+        stopButton.addEventListener('click', stopMusic);
+        nextButton.addEventListener('click', nextTrack);
+        previousButton.addEventListener('click', previousTrack);
+        
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+            const duration = audio.duration;
+            
+            trackTimeDisplay.textContent = `Track: ${formatTime(currentTime)} m:s`;
+            totalPlayDisplay.textContent = `Total Play: ${formatTime(duration)} m:s`;
+            timeDisplay.textContent = `[${String(currentTrackIndex + 1).padStart(2, '0')}] ${formatTime(currentTime)}`;
+        });
+        
+        audio.addEventListener('ended', nextTrack);
+
+        // Inicializa o display com a primeira faixa da lista do Javascript
+        updateDisplay();
+    });
+</script>
+
+</body>
+</html>
