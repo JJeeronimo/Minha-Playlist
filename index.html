@@ -176,7 +176,7 @@
         position: absolute;
         top: 1px;
         left: 1px;
-        background: var(--albumcover);
+        background-image: var(--albumcover); /* MODIFICADO: usa a variável aqui */
         width: 98%;
         height: 96%;
         opacity: .5;
@@ -317,37 +317,37 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // IDs para os botões do player
         const playButton = document.getElementById('playButton');
         const pauseButton = document.getElementById('pauseButton');
         const stopButton = document.getElementById('stopButton');
         const nextButton = document.getElementById('nextTrackButton');
         const previousButton = document.getElementById('previousTrackButton');
         
-        // IDs para as informações da faixa
         const artistText = document.querySelector('.artist');
         const titleText = document.querySelector('.title');
         const timeDisplay = document.getElementById('text2');
         const totalPlayDisplay = document.querySelector('.status-bar-field:first-child');
         const trackTimeDisplay = document.querySelector('.status-bar-field:last-child');
 
-        // A lista de músicas no JavaScript é a "fonte da verdade".
-        // A primeira música aqui é a que será exibida e carregada inicialmente.
+        // --- LISTA DE MÚSICAS MODIFICADA ---
         const playlist = [
             {
                 artist: "Devon Hendryx",
                 title: "Missing Image File",
-                url: "https://dvonhendryx.bandcamp.com/track/missing-image-file-maladaptivedaydreaming-gif-2" // URL de exemplo
+                url: "https://file.garden/ZTEy8B_Kk2a-pgpT/devon-hendryx-missing-image-file-maladaptivedaydreaming.mp3", // URL real
+                albumCoverUrl: "https://m.media-amazon.com/images/I/71NmRa8Sp7L._AC_SL1500_.jpg" // NOVO: Link da capa
             },
             {
                 artist: "Radiohead",
-                title: "Paranoid Android",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" // URL de exemplo
+                title: "Jigsaw Falling Into Place",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+                albumCoverUrl: "https://m.media-amazon.com/images/I/A1MwaIeBpwL._AC_SX679_.jpg" // NOVO: Link da capa
             },
             {
-                artist: "A Perfect Circle",
-                title: "Judith",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" // URL de exemplo
+                artist: "Death Grips",
+                title: "I've Seen Footage",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+                albumCoverUrl: "https://imusic.b-cdn.net/images/item/original/119/0886919635119.jpg?death-grips-2012-the-money-store-lp&class=scaled&v=1647319621" // NOVO: Link da capa
             }
         ];
         
@@ -355,13 +355,16 @@
         let currentTrackIndex = 0;
         let isPlaying = false;
         
+        // --- FUNÇÃO DE DISPLAY MODIFICADA ---
         function updateDisplay() {
             const currentTrack = playlist[currentTrackIndex];
-            
-            // Atualiza as variáveis CSS para mostrar o artista e título corretos
             const root = document.documentElement;
+            
+            // Atualiza as variáveis CSS para mostrar artista, título E a capa do álbum
             root.style.setProperty('--artist', `"${currentTrack.artist}"`);
             root.style.setProperty('--title', `"${currentTrack.title}"`);
+            // MODIFICADO: Adiciona a linha para atualizar a capa do álbum
+            root.style.setProperty('--albumcover', `url('${currentTrack.albumCoverUrl}')`);
         }
 
         function formatTime(seconds) {
@@ -372,7 +375,7 @@
         }
 
         function playMusic() {
-            if (!audio.src) {
+            if (!audio.src || audio.src !== playlist[currentTrackIndex].url) {
                 loadTrack(currentTrackIndex, true);
             } else {
                 audio.play();
@@ -399,7 +402,7 @@
             currentTrackIndex = trackIndex;
             audio.src = playlist[currentTrackIndex].url;
             updateDisplay();
-            stopMusic();
+            stopMusic(); // Para o som e reseta o tempo da faixa anterior
             if (autoplay) {
                 audio.play();
                 isPlaying = true;
@@ -408,12 +411,12 @@
 
         function nextTrack() {
             const newIndex = (currentTrackIndex + 1) % playlist.length;
-            loadTrack(newIndex, isPlaying || audio.paused === false);
+            loadTrack(newIndex, isPlaying || !audio.paused);
         }
 
         function previousTrack() {
             const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-            loadTrack(newIndex, isPlaying || audio.paused === false);
+            loadTrack(newIndex, isPlaying || !audio.paused);
         }
 
         playButton.addEventListener('click', playMusic);
@@ -426,8 +429,10 @@
             const currentTime = audio.currentTime;
             const duration = audio.duration;
             
+            if (!isNaN(duration)) {
+                totalPlayDisplay.textContent = `Total Play: ${formatTime(duration)} m:s`;
+            }
             trackTimeDisplay.textContent = `Track: ${formatTime(currentTime)} m:s`;
-            totalPlayDisplay.textContent = `Total Play: ${formatTime(duration)} m:s`;
             timeDisplay.textContent = `[${String(currentTrackIndex + 1).padStart(2, '0')}] ${formatTime(currentTime)}`;
         });
         
