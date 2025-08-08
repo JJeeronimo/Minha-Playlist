@@ -21,7 +21,7 @@
                 <span><u>D</u>isc</span>
                 <ul class="dropdown-menu">
                     <li id="menuEject">Eject</li>
-                    <li id="menuCloseTray">Close Tray</li>
+                    <li id="menuAddMusic"><u>A</u>dicionar Música</li>
                 </ul>
             </div>
             <div class="menu-item">
@@ -74,6 +74,8 @@
     </div>
 </div>
 
+<input type="file" id="fileInput" accept="audio/*" style="display:none;">
+
 <style>
     :root {
         --artist: "Devon Hendryx";
@@ -123,14 +125,65 @@
     .control-butt:focus { outline: #000 dotted 1px; outline-offset: -4px; }
     #playButton { min-width: 75px; } #pauseButton, #stopButton { text-indent: -5px; font-weight: 700; } #stopButton span { display: block; transform: translate(2px, -2px) scale(1.2); } #previousTrackButton, #rewindButton, #forwardButton, #nextTrackButton { text-indent: -8px; font-weight: 700; letter-spacing: -4px; font-size: 10px; } #ejectButton { text-indent: -8px; font-weight: 700; letter-spacing: -1.5px; text-shadow: none; transform: translateY(1px); } #ejectButton span { display: block; transform: rotate(-90deg) translate(2px, 0) scaleY(1.4); color: #000; }
     
-    /* --- NOVOS ESTILOS PARA FUNCIONALIDADES --- */
+    /* --- ESTILOS DE FUNCIONALIDADES --- */
     .ahhh { text-align: right; }
     .volume-control { display: none; margin-top: 5px; } /* Controle de volume escondido */
-    .volume-control.active { display: block; } /* Mostra o controle */
+    .volume-control.active { display: block; text-align: center; padding: 5px 0; } /* Mostra o controle */
     .window.compact { width: 180px !important; } /* Visão compacta */
     .window.compact .ahhh, .window.compact .status-bar { display: none; }
     .window.compact p#text2 { width: 98%; }
     .window.compact .buttontos { width: 98%; height: auto; }
+
+    /* --- ESTILO RETRÔ PARA O CONTROLE DE VOLUME (NOVO) --- */
+    #volumeSlider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80%;
+        height: 20px;
+        background: transparent;
+        outline: none;
+    }
+    #volumeSlider::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        cursor: pointer;
+        background: silver;
+        border-right: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        border-left: 1px solid grey;
+        border-top: 1px solid grey;
+        box-shadow: inset 1px 1px 0px #0a0a0a;
+    }
+    #volumeSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 15px;
+        background: silver;
+        cursor: pointer;
+        margin-top: -8px; /* Centraliza o thumb na trilha */
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        border: 1px solid #0a0a0a;
+    }
+    #volumeSlider::-moz-range-track {
+        width: 100%;
+        height: 4px;
+        cursor: pointer;
+        background: silver;
+        border-right: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        border-left: 1px solid grey;
+        border-top: 1px solid grey;
+        box-shadow: inset 1px 1px 0px #0a0a0a;
+    }
+    #volumeSlider::-moz-range-thumb {
+        height: 20px;
+        width: 15px;
+        background: silver;
+        cursor: pointer;
+        border-radius: 0;
+        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+        border: 1px solid #0a0a0a;
+    }
 
 
     p#label { display: inline-block; width: fit-content; margin-right: 5px; font-size: 12px; }
@@ -158,6 +211,8 @@
         const trackTimeDisplay = document.querySelector('.status-bar-field:last-child');
         const volumeControl = document.querySelector('.volume-control');
         const volumeSlider = document.getElementById('volumeSlider');
+        const fileInput = document.getElementById('fileInput');
+        const menuAddMusic = document.getElementById('menuAddMusic');
 
         const playlist = [
             { artist: "Devon Hendryx", title: "Missing Image File", url: "https://file.garden/ZTEy8B_Kk2a-pgpT/devon-hendryx-missing-image-file-maladaptivedaydreaming.mp3", albumCoverUrl: "https://m.media-amazon.com/images/I/71NmRa8Sp7L._AC_SL1500_.jpg" },
@@ -171,11 +226,9 @@
         let currentTrackIndex = 0;
         let isPlaying = false;
         
-        // --- VARIÁVEIS DE ESTADO PARA OPÇÕES ---
         let isShuffle = false;
         let isContinuous = true;
         
-        // --- FUNÇÕES BÁSICAS DO PLAYER ---
         function updateDisplay(isEjected = false) {
             const root = document.documentElement;
             if (isEjected) {
@@ -209,9 +262,7 @@
             }
         }
 
-        function pauseMusic() {
-            audio.pause(); isPlaying = false;
-        }
+        function pauseMusic() { audio.pause(); isPlaying = false; }
         
         function stopMusic() {
             audio.pause(); audio.currentTime = 0; isPlaying = false;
@@ -231,9 +282,7 @@
         function nextTrack() {
             let newIndex;
             if (isShuffle) {
-                do {
-                    newIndex = Math.floor(Math.random() * playlist.length);
-                } while (playlist.length > 1 && newIndex === currentTrackIndex);
+                do { newIndex = Math.floor(Math.random() * playlist.length); } while (playlist.length > 1 && newIndex === currentTrackIndex);
             } else {
                 newIndex = (currentTrackIndex + 1) % playlist.length;
             }
@@ -246,9 +295,7 @@
         }
 
         function ejectDisc() {
-            stopMusic();
-            audio.src = '';
-            updateDisplay(true); // Atualiza display para modo "ejetado"
+            stopMusic(); audio.src = ''; updateDisplay(true);
         }
 
         // --- EVENT LISTENERS DO PLAYER ---
@@ -269,19 +316,12 @@
         });
         
         audio.addEventListener('ended', () => {
-            if (isContinuous) {
-                nextTrack();
-            } else {
-                stopMusic();
-                isPlaying = false;
-            }
+            if (isContinuous) { nextTrack(); } else { stopMusic(); isPlaying = false; }
         });
 
-        volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-        });
+        volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
         
-        // --- LÓGICA E EVENT LISTENERS DOS MENUS ---
+        // --- LÓGICA DOS MENUS ---
         const menuItems = document.querySelectorAll('.menu-item');
         function closeAllMenus() {
             menuItems.forEach(item => item.classList.remove('active'));
@@ -298,7 +338,26 @@
 
         // Disc
         document.getElementById('menuEject').addEventListener('click', () => { ejectDisc(); closeAllMenus(); });
-        document.getElementById('menuCloseTray').addEventListener('click', () => { loadTrack(0); closeAllMenus(); });
+        menuAddMusic.addEventListener('click', () => {
+            fileInput.click();
+            closeAllMenus();
+        });
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                const title = file.name.replace(/\.[^/.]+$/, ""); 
+                const newTrack = {
+                    artist: "Artista Desconhecido",
+                    title: title,
+                    url: fileURL,
+                    albumCoverUrl: "https://images2.imgbox.com/42/89/JIRoQjUo_o.png"
+                };
+                playlist.push(newTrack);
+                loadTrack(playlist.length - 1, true);
+                fileInput.value = '';
+            }
+        });
         
         // View
         document.getElementById('menuViewNormal').addEventListener('click', () => {
@@ -340,7 +399,6 @@
 
         window.addEventListener('click', closeAllMenus);
         
-        // Inicializa o display
         updateDisplay();
     });
 </script>
