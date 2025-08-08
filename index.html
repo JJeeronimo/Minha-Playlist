@@ -7,74 +7,74 @@
 </head>
 <body>
 
-<div id="cdPlayerWindow" class="window" style="width:320px">
-    <div class="title-bar">
-        <div class="title-bar-text">
-            <img src="https://images2.imgbox.com/42/89/JIRoQjUo_o.png"/>
-            CD Player
-        </div>
-        <div class="title-bar-controls"></div>
-    </div>
-    <div class="window-body">
-        <div class="toptoptop">
-            <div class="menu-item">
-                <span><u>D</u>isc</span>
-                <ul class="dropdown-menu">
-                    <li id="menuEject">Eject</li>
-                    <li id="menuAddMusic"><u>A</u>dicionar Música</li>
-                </ul>
+<div class="player-container"> 
+    <div id="cdPlayerWindow" class="window" style="width:320px">
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="https://images2.imgbox.com/42/89/JIRoQjUo_o.png"/>
+                CD Player
             </div>
-            <div class="menu-item">
-                <span><u>V</u>iew</span>
-                <ul class="dropdown-menu">
-                    <li id="menuViewNormal">Normal</li>
-                    <li id="menuViewCompact">Compact</li>
-                    <li class="separator"></li>
-                    <li id="menuViewVolume">Volume Control</li>
-                </ul>
+            <div class="title-bar-controls"></div>
+        </div>
+        <div class="window-body">
+            <div class="toptoptop">
+                <div class="menu-item">
+                    <span><u>D</u>isc</span>
+                    <ul class="dropdown-menu">
+                        <li id="menuEject">Eject</li>
+                        <li id="menuAddMusic"><u>A</u>dicionar Música</li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <span><u>V</u>iew</span>
+                    <ul class="dropdown-menu">
+                        <li id="menuViewNormal">Normal</li>
+                        <li id="menuViewCompact">Compact</li>
+                        <li class="separator"></li>
+                        <li id="menuViewVolume">Volume Control</li>
+                    </ul>
+                </div>
+                <div class="menu-item">
+                    <span><u>O</u>ptions</span>
+                    <ul class="dropdown-menu">
+                        <li id="menuOptRandom"><span class="checkmark"></span>Random Order</li>
+                        <li id="menuOptContinuous"><span class="checkmark active">✓</span>Continuous Play</li>
+                        <li class="separator"></li>
+                        <li id="menuOptPrefs">Preferences...</li>
+                    </ul>
+                </div>
             </div>
-            <div class="menu-item">
-                <span><u>O</u>ptions</span>
-                <ul class="dropdown-menu">
-                    <li id="menuOptRandom"><span class="checkmark"></span>Random Order</li>
-                    <li id="menuOptContinuous"><span class="checkmark active">✓</span>Continuous Play</li>
-                    <li class="separator"></li>
-                    <li id="menuOptPrefs">Preferences...</li>
-                </ul>
+
+            <p id="text2">[00] 00:00</p>
+            <div class="buttontos">
+                <p id="playButton" class="control-butt">▶</p>
+                <p id="pauseButton" class="control-butt">❚❚</p>
+                <p id="stopButton" class="control-butt"><span>◼</span></p>
+                <p id="previousTrackButton" class="control-butt">❚◄◄</p>
+                <p id="rewindButton" class="control-butt">◄◄</p>
+                <p id="forwardButton" class="control-butt">►►</p>
+                <p id="nextTrackButton" class="control-butt">►►❚</p>
+                <p id="ejectButton" class="control-butt"><span>❚ ►</span></p>
+            </div>
+
+            <div class="volume-control">
+                <label for="volumeSlider">Volume</label>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+            </div>
+            
+            <div class="ahhh">
+                <p id="label"><u>A</u>rtist:</p>
+                <p id="text" class="artist"></p>
+                <p id="label">Title:</p>
+                <p id="text" class="title"></p>
             </div>
         </div>
-
-        <p id="text2">[00] 00:00</p>
-        <div class="buttontos">
-            <p id="playButton" class="control-butt">▶</p>
-            <p id="pauseButton" class="control-butt">❚❚</p>
-            <p id="stopButton" class="control-butt"><span>◼</span></p>
-            <p id="previousTrackButton" class="control-butt">❚◄◄</p>
-            <p id="rewindButton" class="control-butt">◄◄</p>
-            <p id="forwardButton" class="control-butt">►►</p>
-            <p id="nextTrackButton" class="control-butt">►►❚</p>
-            <p id="ejectButton" class="control-butt"><span>❚ ►</span></p>
-        </div>
-
-        <div class="volume-control">
-            <label for="volumeSlider">Volume</label>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-        </div>
-        
-        <div class="ahhh">
-            <p id="label"><u>A</u>rtist:</p>
-            <p id="text" class="artist"></p>
-            <p id="label">Title:</p>
-            <p id="text" class="title"></p>
+        <div class="status-bar">
+            <p class="status-bar-field">Total Play: 00:00 m:s</p>
+            <p class="status-bar-field">Track: 00:00 m:s</p>
         </div>
     </div>
-    <div class="status-bar">
-        <p class="status-bar-field">Total Play: 00:00 m:s</p>
-        <p class="status-bar-field">Track: 00:00 m:s</p>
-    </div>
-</div>
-
-<input type="file" id="fileInput" accept="audio/*" style="display:none;">
+</div> <input type="file" id="fileInput" accept="audio/*" style="display:none;">
 
 <style>
     :root {
@@ -83,8 +83,12 @@
         --albumcover: url(https://m.media-amazon.com/images/I/71NmRa8Sp7L._AC_SL1500_.jpg);
     }
     
+    body {
+        background-color: #ffffff; /* Fundo teal, clássico do Windows */
+    }
+
     .status-bar, .title-bar { display: flex; }
-    .window { background: silver; margin: auto; text-shadow: none; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff; padding: 3px; color: #000!important; font-family: "Pixelated MS Sans Serif"!important; transition: width 0.2s ease-in-out; }
+    .window { background: silver; text-shadow: none; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff; padding: 3px; color: #000!important; font-family: "Pixelated MS Sans Serif"!important; transition: width 0.2s ease-in-out, transform 0.3s ease-in-out; }
     .window * { -webkit-font-smoothing: none; font-family: "Pixelated MS Sans Serif", Arial; font-size: 11px; text-shadow: inherit; }
     .window img { filter: none!important; }
     p#text, p#text2 { box-shadow: inset -1px -1px #fff, inset 1px 1px grey, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a; box-sizing: border-box; margin-block: 3px; }
@@ -111,7 +115,7 @@
     .dropdown-menu li { padding: 3px 10px 3px 20px; cursor: pointer; white-space: nowrap; position: relative; }
     .dropdown-menu li:hover { background-color: navy; color: white; }
     .dropdown-menu li.separator { height: 1px; background-color: grey; margin: 4px 1px; box-shadow: 1px 1px #fff; padding: 0; cursor: default; }
-    .dropdown-menu li:hover.separator { background: grey; } /* Evita o highlight azul */
+    .dropdown-menu li:hover.separator { background: grey; } 
     .checkmark { display: inline-block; width: 15px; text-align: left; position: absolute; left: 3px; top: 3px; }
     .checkmark.active { content: '✓'; }
 
@@ -127,64 +131,19 @@
     
     /* --- ESTILOS DE FUNCIONALIDADES --- */
     .ahhh { text-align: right; }
-    .volume-control { display: none; margin-top: 5px; } /* Controle de volume escondido */
-    .volume-control.active { display: block; text-align: center; padding: 5px 0; } /* Mostra o controle */
-    .window.compact { width: 180px !important; } /* Visão compacta */
+    .volume-control { display: none; margin-top: 5px; } 
+    .volume-control.active { display: block; text-align: center; padding: 5px 0; } 
+    .window.compact { width: 180px !important; } 
     .window.compact .ahhh, .window.compact .status-bar { display: none; }
     .window.compact p#text2 { width: 98%; }
     .window.compact .buttontos { width: 98%; height: auto; }
 
-    /* --- ESTILO RETRÔ PARA O CONTROLE DE VOLUME (NOVO) --- */
-    #volumeSlider {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 80%;
-        height: 20px;
-        background: transparent;
-        outline: none;
-    }
-    #volumeSlider::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        background: silver;
-        border-right: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        border-left: 1px solid grey;
-        border-top: 1px solid grey;
-        box-shadow: inset 1px 1px 0px #0a0a0a;
-    }
-    #volumeSlider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        height: 20px;
-        width: 15px;
-        background: silver;
-        cursor: pointer;
-        margin-top: -8px; /* Centraliza o thumb na trilha */
-        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
-        border: 1px solid #0a0a0a;
-    }
-    #volumeSlider::-moz-range-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        background: silver;
-        border-right: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        border-left: 1px solid grey;
-        border-top: 1px solid grey;
-        box-shadow: inset 1px 1px 0px #0a0a0a;
-    }
-    #volumeSlider::-moz-range-thumb {
-        height: 20px;
-        width: 15px;
-        background: silver;
-        cursor: pointer;
-        border-radius: 0;
-        box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
-        border: 1px solid #0a0a0a;
-    }
-
+    /* --- ESTILO RETRÔ PARA O CONTROLE DE VOLUME --- */
+    #volumeSlider { -webkit-appearance: none; appearance: none; width: 80%; height: 20px; background: transparent; outline: none; }
+    #volumeSlider::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: silver; border-right: 1px solid #fff; border-bottom: 1px solid #fff; border-left: 1px solid grey; border-top: 1px solid grey; box-shadow: inset 1px 1px 0px #0a0a0a; }
+    #volumeSlider::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 15px; background: silver; cursor: pointer; margin-top: -8px; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf; border: 1px solid #0a0a0a; }
+    #volumeSlider::-moz-range-track { width: 100%; height: 4px; cursor: pointer; background: silver; border-right: 1px solid #fff; border-bottom: 1px solid #fff; border-left: 1px solid grey; border-top: 1px solid grey; box-shadow: inset 1px 1px 0px #0a0a0a; }
+    #volumeSlider::-moz-range-thumb { height: 20px; width: 15px; background: silver; cursor: pointer; border-radius: 0; box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf; border: 1px solid #0a0a0a; }
 
     p#label { display: inline-block; width: fit-content; margin-right: 5px; font-size: 12px; }
     p#text { display: inline-block; background-color: #fff; padding: 4px; width: 85%; text-align: left; font-size: 12px; }
@@ -194,11 +153,28 @@
     
     .status-bar { gap: 1px; margin: 0 1px; }
     .status-bar-field { box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px grey; flex-grow: 1; margin: 0; padding: 2px 3px; }
+
+    /* --- CSS PARA AUMENTAR O PLAYER EM TELAS GRANDES --- */
+    .player-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        padding: 2em 0;
+        box-sizing: border-box;
+        overflow: hidden;         
+    }
+    @media screen and (min-width: 1024px) {
+        #cdPlayerWindow {
+            transform: scale(4); 
+            margin: 0; 
+        }
+    }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- SELETORES DE ELEMENTOS ---
         const cdPlayerWindow = document.getElementById('cdPlayerWindow');
         const playButton = document.getElementById('playButton');
         const pauseButton = document.getElementById('pauseButton');
@@ -225,7 +201,6 @@
         const audio = new Audio();
         let currentTrackIndex = 0;
         let isPlaying = false;
-        
         let isShuffle = false;
         let isContinuous = true;
         
@@ -298,7 +273,6 @@
             stopMusic(); audio.src = ''; updateDisplay(true);
         }
 
-        // --- EVENT LISTENERS DO PLAYER ---
         playButton.addEventListener('click', playMusic);
         pauseButton.addEventListener('click', pauseMusic);
         stopButton.addEventListener('click', stopMusic);
@@ -321,7 +295,6 @@
 
         volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
         
-        // --- LÓGICA DOS MENUS ---
         const menuItems = document.querySelectorAll('.menu-item');
         function closeAllMenus() {
             menuItems.forEach(item => item.classList.remove('active'));
@@ -336,7 +309,6 @@
             });
         });
 
-        // Disc
         document.getElementById('menuEject').addEventListener('click', () => { ejectDisc(); closeAllMenus(); });
         menuAddMusic.addEventListener('click', () => {
             fileInput.click();
@@ -359,7 +331,6 @@
             }
         });
         
-        // View
         document.getElementById('menuViewNormal').addEventListener('click', () => {
             cdPlayerWindow.classList.remove('compact');
             volumeControl.classList.remove('active');
@@ -375,7 +346,6 @@
             closeAllMenus();
         });
 
-        // Options
         const randomCheck = document.querySelector('#menuOptRandom .checkmark');
         document.getElementById('menuOptRandom').addEventListener('click', () => {
             isShuffle = !isShuffle;
